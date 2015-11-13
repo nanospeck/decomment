@@ -1,0 +1,211 @@
+<html>
+<header>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="./highlight/styles/default.css">
+    <script src="./highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</header>
+<body>
+    This project will simplify learning code from source code.
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button id="convertBtn"  type="button" class="btn btn-primary">Make Simpler</button>
+    <br>
+    <br>
+    <br>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $("[rel='tooltip'], .tooltip").tooltip();
+      $("#convertBtn").click(function(){
+       // $('#item2').prev().attr("name")​​​​​​​​​​;​
+       var myArrayOfKeywords = $('.hljs-keyword');
+       var myArrayOfFunctions = $('.hljs-function')
+       var myArray = $.merge(myArrayOfKeywords,myArrayOfFunctions)
+        //alert(myArray.length);
+        for (var i = myArray.length - 1; i >= 0; i--) {
+            el = myArray[i]
+            debug1 = $(el).text()    
+            if($(el).prev().attr("class")==="hljs-comment")
+            {
+                
+                //console.log(comment)
+                prev1 = $(el).prev()
+                finalComment = recursiveCommentBuilder(prev1,"")
+                //if(prev1.prev().prop("tagName")==="TT"||prev1.prev().attr("class")==="hljs-comment"){
+                //    console.log("2nd level comment found")
+                //    comment = comment + prev1.prev().text();
+               // }
+               
+                $(el).attr('rel', "tooltip"); //set bootstrap tooltip
+                $(el).attr('data-placement', "right"); //set bootstrap position
+                $(el).prop('title', finalComment); // set the final comment from recursive fn
+                $(el).css('text-decoration', 'underline'); //underline the word to indicate text
+                $(el).prev().text("")
+            }
+
+        };
+        //alert("button");
+        //$( ".hljs-keyword" ).css( "border", "3px solid red" );
+        $("[rel='tooltip'], .tooltip").tooltip();
+    });
+$("[rel='tooltip'], .tooltip").tooltip(); 
+});
+function recursiveCommentBuilder(element, commentValue){
+    //alert('\n\n' + aaa + ' ' + bbb);
+    if(commentValue==undefined)
+        var commentValue = ""
+    //.css('text-decoration', 'underline');
+    if(element.prev().prop("tagName")==="TT"||element.prev().attr("class")==="hljs-comment"){
+
+        //console.log("Comment value  : "+commentValue)
+        var updatedComment = element.text()+commentValue
+        element.text("")
+        return recursiveCommentBuilder(element.prev(),updatedComment) 
+    }
+    else{
+        var updatedCommentLast = element.text() + commentValue
+        element.text("")
+        return  updatedCommentLast
+    }
+};
+</script>
+
+
+
+<pre>
+    <span class="hljs-keyword" rel="tooltip" data-placement="right" title="/**
+    * The maximum size of array to allocate.
+    * Some VMs reserve some header words in an array.
+    * Attempts to allocate larger arrays may result in
+    * OutOfMemoryError: Requested array size exceeds VM limit
+    */" style="text-decoration: underline;">private</span>
+
+    <span class="hljs-keyword" rel="tooltip" data-placement="right" data-original-title="/**
+    * The maximum size of array to allocate.
+    * Some VMs reserve some header words in an array.
+    * Attempts to allocate larger arrays may result in
+    * OutOfMemoryError: Requested array size exceeds VM limit
+    */" style="text-decoration: underline;">private</span>
+
+    <code class="java">
+       
+
+        /**
+        * Constructs an empty list with the specified initial capacity.
+        *
+        * @param  initialCapacity  the initial capacity of the list
+        * @throws IllegalArgumentException if the specified initial capacity
+        *         is negative
+        */
+        public ArrayList(int initialCapacity) {
+        super();
+        if (initialCapacity < 0)
+        throw new IllegalArgumentException("Illegal Capacity: "+
+        initialCapacity);
+        this.elementData = new Object[initialCapacity];
+    }
+
+    /**
+    * Constructs an empty list with an initial capacity of ten.
+    */
+    public ArrayList() {
+    super();
+    this.elementData = EMPTY_ELEMENTDATA;
+}
+
+/**
+* Constructs a list containing the elements of the specified
+* collection, in the order they are returned by the collection's
+* iterator.
+*
+* @param c the collection whose elements are to be placed into this list
+* @throws NullPointerException if the specified collection is null
+*/
+public ArrayList(Collection<? extends E> c) {
+    elementData = c.toArray();
+    size = elementData.length;
+        // c.toArray might (incorrectly) not return Object[] (see 6260652)
+    if (elementData.getClass() != Object[].class)
+        elementData = Arrays.copyOf(elementData, size, Object[].class);
+}
+
+    /**
+     * Trims the capacity of this <tt>ArrayList</tt> instance to be the
+     * list's current size.  An application can use this operation to minimize
+     * the storage of an <tt>ArrayList</tt> instance.
+     */
+    public void trimToSize() {
+        modCount++;
+        if (size < elementData.length) {
+            elementData = Arrays.copyOf(elementData, size);
+        }
+    }
+
+    /**
+     * Increases the capacity of this <tt>ArrayList</tt> instance, if
+     * necessary, to ensure that it can hold at least the number of elements
+     * specified by the minimum capacity argument.
+     *
+     * @param   minCapacity   the desired minimum capacity
+     */
+    public void ensureCapacity(int minCapacity) {
+        int minExpand = (elementData != EMPTY_ELEMENTDATA)
+            // any size if real element table
+        ? 0
+            // larger than default for empty table. It's already supposed to be
+            // at default size.
+        : DEFAULT_CAPACITY;
+
+        if (minCapacity > minExpand) {
+            ensureExplicitCapacity(minCapacity);
+        }
+    }
+
+    private void ensureCapacityInternal(int minCapacity) {
+        if (elementData == EMPTY_ELEMENTDATA) {
+            minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);
+        }
+
+        ensureExplicitCapacity(minCapacity);
+    }
+
+    private void ensureExplicitCapacity(int minCapacity) {
+        modCount++;
+
+        // overflow-conscious code
+        if (minCapacity - elementData.length > 0)
+            grow(minCapacity);
+    }
+
+    /**
+     * The maximum size of array to allocate.
+     * Some VMs reserve some header words in an array.
+     * Attempts to allocate larger arrays may result in
+     * OutOfMemoryError: Requested array size exceeds VM limit
+     */
+    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+
+    
+
+    </code></pre>
+
+    </body>
+    </html>
